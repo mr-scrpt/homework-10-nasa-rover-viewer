@@ -21,6 +21,7 @@ class App extends PureComponent {
 
   renderApp() {
     return <RoversViewer />;
+
   }
 
   renderLogin() {
