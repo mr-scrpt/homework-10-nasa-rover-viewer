@@ -21,6 +21,7 @@ class RoversViews extends Component{
     const { changeSol, fetchPhotosRequest } = this.props;
     changeSol(sol);
     fetchPhotosRequest(sol);
+
   };
   render() {
     const { getCurrentSol } = this.props;

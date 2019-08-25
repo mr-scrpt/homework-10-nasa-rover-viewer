@@ -39,3 +39,4 @@ export const getPhotos = createSelector(
   state => state.RoverPhotos.photos,
   photos => photos
 );
+export const getRovers = () => ['curiosity', 'opportunity', 'spirit'];

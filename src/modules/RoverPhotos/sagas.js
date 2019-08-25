@@ -1,15 +1,31 @@
 // Реализуйте саги
-import {takeLatest, select, put, call, fork} from 'redux-saga/effects';
+import {takeLatest, take,select, put, call, fork} from 'redux-saga/effects';
 import {changeSol, fetchPhotosRequest, fetchPhotosSuccess, fetchPhotosFailure} from './actions';
 import {getPhotos} from './api';
-import {getIsAuthorized} from '../Auth';
+import {getIsAuthorized, addKey} from '../Auth';
+import {getRovers} from "./RoverPhotos";
 
 function* fetchWatcher() {
   yield takeLatest(fetchPhotosRequest, fetchDataFlow);
 }
 
 export function* fetchDataFlow(action) {
-  const sol = action.payload;
+  const rovers = yield select(getRovers);
+  const apiKey = yield select(getIsAuthorized);
+  const res = {};
+  while (true){
+    const sol = action.payload;
+
+    for(let rover of rovers){
+      const roverPhoto = yield call(getPhotos, apiKey, rover, sol);
+      res[rover] = {[sol] : {isLoading: false, ...roverPhoto, isLoaded: true}}
+
+    }
+    yield put(fetchPhotosSuccess(res));
+  }
+
+
+ /* const sol = action.payload;
   try{
     const apiKey = yield select(getIsAuthorized);
     const curiosityPhoto = yield call(getPhotos, apiKey, 'curiosity', sol);
@@ -24,7 +40,7 @@ export function* fetchDataFlow(action) {
     yield put(fetchPhotosSuccess(res));
   }catch (e) {
 
-  }
+  }*/
 }
 
 export default function*() {
