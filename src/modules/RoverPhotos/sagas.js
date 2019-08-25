@@ -6,7 +6,7 @@ import {getIsAuthorized, addKey} from '../Auth';
 import {getRovers} from "./RoverPhotos";
 
 function* fetchWatcher() {
-  yield takeLatest(fetchPhotosRequest, fetchDataFlow);
+  yield takeEvery(fetchPhotosRequest, fetchDataFlow);
 
 }
 

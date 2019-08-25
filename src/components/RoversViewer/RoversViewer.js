@@ -16,6 +16,21 @@ import {getIsAuthorized} from '../../modules/Auth';
 
 
 class RoversViews extends PureComponent{
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { getSol, getRoversList, fetchPhotosRequest, isAuthorized} = this.props;
+
+    if (prevProps.getSol.currency !== getSol.currency){
+      const roverList = getRoversList;
+      const currentSol = getSol.currency;
+      const renderList = roverList && roverList.map(rover=>{
+        return fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
+      });
+      console.log(renderList);
+    }
+
+  }
+
   getSolOnSlider = (sol)=>{
     const { changeSol } = this.props;
     changeSol(sol);
@@ -24,20 +39,20 @@ class RoversViews extends PureComponent{
 
   render() {
     //const { getCurrentSol } = this.props;
-    const { getSol, getRoversList, fetchPhotosRequest, isAuthorized} = this.props;
-    const roverList = getRoversList;
-    const currentSol = getSol.currency;
+    //const { getSol, getRoversList, fetchPhotosRequest, isAuthorized} = this.props;
+    //const roverList = getRoversList;
+    //const currentSol = getSol.currency;
 
     return(
       <>
         <SelectSol changeSol={this.getSolOnSlider}/>
-        {roverList && roverList.map(rover=>{
+        {/*{roverList && roverList.map(rover=>{
             fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
 
           return(
             <div>222</div>
           )
-        })}
+        })}*/}
         {/*<RoverPhotos/>*/}
 
       </>
