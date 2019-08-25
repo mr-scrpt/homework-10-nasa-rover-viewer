@@ -14,14 +14,17 @@ const sol = handleActions({
 }, {currency: 1, min: 1, max: 100});
 
 const photos = handleActions({
-  [fetchPhotosRequest]: () => null,
+  [fetchPhotosRequest]: (_state, {payload: {name, sol}}) => ({
+    ..._state, ..._state[name][sol] = {
+      isLoading: true,
+      isLoaded: false,
+      photos:[]
+    }
+  }),
   [fetchPhotosFailure]: () => null,
-  [fetchPhotosSuccess]: (_state, action) => ({
-     ..._state,
-    curiosity: action.payload.curiosity || {},
-    opportunity: action.payload.opportunity || {},
-    spirit: action.payload.spirit || {},
-    }),
+  [fetchPhotosSuccess]: (_state, {payload: {name, roverPhoto, sol}}) => ({
+    ..._state, ..._state[name][sol] ={ isLoading: false, photos, isLoaded: true }
+  })
 }, {curiosity:{}, opportunity:{}, spirit:{}});
 
 
@@ -31,7 +34,7 @@ export default combineReducers({
 });
 //Селекторы
 export const getSol = createSelector(
-  state => state.RoverPhotos.sol,
+  state => state.roverPhotos.sol,
   sol => sol
 );
 
@@ -40,3 +43,4 @@ export const getPhotos = createSelector(
   photos => photos
 );
 export const getRovers = () => ['curiosity', 'opportunity', 'spirit'];
+

@@ -6,31 +6,39 @@
 
 // Так же вы будете диспатчить экшены CHANGE_SOL и FETCH_PHOTOS_REQUEST
 // Эти экшены находятся в модуле ROVER PHOTOS
-import React, { Component } from 'react';
+import React, { PureComponent} from 'react';
 import SelectSol from '../SelectSol';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
-import RoverPhotos, {changeSol, fetchPhotosRequest,getSol} from '../../modules/RoverPhotos';
+import RoverPhotos, {changeSol, fetchPhotosRequest, getSol, getRovers} from '../../modules/RoverPhotos';
 import { connect } from 'react-redux';
+import {getIsAuthorized} from '../../modules/Auth';
 
-class RoversViews extends Component{
-  state = {
-    sol: {}
-  };
+
+class RoversViews extends PureComponent{
   getSolOnSlider = (sol)=>{
-    const { changeSol, fetchPhotosRequest } = this.props;
+    const { changeSol } = this.props;
     changeSol(sol);
-    fetchPhotosRequest(sol);
-
   };
-  render() {
-    const { getCurrentSol } = this.props;
 
+
+  render() {
+    //const { getCurrentSol } = this.props;
+    const { getSol, getRoversList, fetchPhotosRequest, isAuthorized} = this.props;
+    const roverList = getRoversList;
+    const currentSol = getSol.currency;
 
     return(
       <>
         <SelectSol changeSol={this.getSolOnSlider}/>
-       {/* <RoverPhotos/>*/}
+        {roverList && roverList.map(rover=>{
+            fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
+
+          return(
+            <div>222</div>
+          )
+        })}
+        {/*<RoverPhotos/>*/}
 
       </>
     )
@@ -38,6 +46,12 @@ class RoversViews extends Component{
 }
 //state => ({ getCurrentSol: getSol(state) })
 export default connect(
-  state => state,
+  state => ({
+    getRoversList: getRovers(state),
+    getSol: getSol(state),
+    isAuthorized: getIsAuthorized(state)
+
+  }),
   { changeSol, fetchPhotosRequest }
 )(RoversViews);
+
