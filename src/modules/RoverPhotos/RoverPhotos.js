@@ -14,21 +14,22 @@ const sol = handleActions({
 }, {currency: 1, min: 1, max: 100});
 
 const photos = handleActions({
-  [fetchPhotosRequest]: (_state, {payload: {name, sol}}) => ({
-    ..._state, ..._state[name][sol] = {
-      isLoading: true,
-      isLoaded: false,
-      photos:[]
-    }
+  [fetchPhotosRequest]: (_state, action) => ({
+    ..._state,
+      [action.payload.name]:{
+        isLoading: true,
+        isLoaded: false,
+        photos: []
+      }
   }),
   [fetchPhotosFailure]: () => null,
-  [fetchPhotosSuccess]: (_state, {action: {name, roverPhotos}}) => ({
-    ..._state, photos:{..._state.photos,
-      [name]:{
+  [fetchPhotosSuccess]: (_state, action) => ({
+    ..._state,
+      [action.payload.name]:{
         isLoading: false,
         isLoaded: true,
-        photos: roverPhotos
-      }}
+        photos: action.payload.roverPhoto.photos
+      }
   })
 }, {curiosity:{}, opportunity:{}, spirit:{}});
 

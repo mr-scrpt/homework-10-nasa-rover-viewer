@@ -34,6 +34,7 @@ class RoversViews extends PureComponent{
   getSolOnSlider = (sol)=>{
     const { changeSol } = this.props;
     changeSol(sol);
+
   };
 
 
