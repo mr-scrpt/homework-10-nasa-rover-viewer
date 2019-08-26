@@ -16,11 +16,13 @@ const sol = handleActions({
 const photos = handleActions({
 
   [fetchPhotosRequest]: (_state, {payload: {name, sol}}) => ({
-    ..._state, [name]:{ [sol]: { isLoading: true, isLoaded: false, photos: []}}
+    ..._state, [name]:{
+      ..._state[name],
+      ...{[sol]: { isLoading: true, isLoaded: false, photos: []}}}
   }),
 
   [fetchPhotosFailure]: () => null,
-  [fetchPhotosSuccess]: (_state, {payload: {name, roverPhoto, sol}}) => ({
+  [fetchPhotosSuccess]: (_state, {payload: {name, roverPhoto, sol}}) => console.log(_state)({
     ..._state,
       [name]:{
         ..._state[name],
@@ -28,9 +30,9 @@ const photos = handleActions({
       }
   })
 }, {
-      curiosity: {},
-      opportunity:{},
-      spirit: {}
+      curiosity: {1:{}},
+      opportunity:{1:{}},
+      spirit: {1:{}}
 });
 
 
