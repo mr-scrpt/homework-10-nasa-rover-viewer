@@ -14,7 +14,7 @@ function* fetchWatcher() {
 export function* fetchDataFlow(action) {
   const {payload: {key, name, sol}} = action;
   const roverPhoto = yield call(getPhotos, key, name, sol);
-  //console.log(name, roverPhoto, sol);
+
   yield put(fetchPhotosSuccess({name, roverPhoto, sol})); //{name, roverPhoto, sol}
 
 }

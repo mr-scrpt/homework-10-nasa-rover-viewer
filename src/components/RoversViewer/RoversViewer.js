@@ -16,6 +16,14 @@ import {getIsAuthorized} from '../../modules/Auth';
 
 
 class RoversViews extends PureComponent{
+  componentDidMount() {
+    const { getSol, getRoversList, fetchPhotosRequest, isAuthorized} = this.props;
+    const roverList = getRoversList;
+    const currentSol = getSol.currency;
+    roverList && roverList.forEach(rover=>{
+      fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
+    });
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { getSol, getRoversList, fetchPhotosRequest, isAuthorized} = this.props;
@@ -23,10 +31,10 @@ class RoversViews extends PureComponent{
     if (prevProps.getSol.currency !== getSol.currency){
       const roverList = getRoversList;
       const currentSol = getSol.currency;
-      const renderList = roverList && roverList.map(rover=>{
-        return fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
+      roverList && roverList.forEach(rover=>{
+        fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
       });
-      console.log(renderList);
+
     }
 
   }

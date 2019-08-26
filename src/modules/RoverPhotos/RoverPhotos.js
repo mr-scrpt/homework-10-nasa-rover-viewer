@@ -22,7 +22,7 @@ const photos = handleActions({
   }),
 
   [fetchPhotosFailure]: () => null,
-  [fetchPhotosSuccess]: (_state, {payload: {name, roverPhoto, sol}}) => console.log(_state)({
+  [fetchPhotosSuccess]: (_state, {payload: {name, roverPhoto, sol}}) => ({
     ..._state,
       [name]:{
         ..._state[name],
@@ -30,9 +30,9 @@ const photos = handleActions({
       }
   })
 }, {
-      curiosity: {1:{}},
-      opportunity:{1:{}},
-      spirit: {1:{}}
+      curiosity: {},
+      opportunity:{},
+      spirit: {}
 });
 
 
