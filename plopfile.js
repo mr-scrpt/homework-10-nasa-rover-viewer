@@ -27,8 +27,8 @@ module.exports = function(plop) {
       },
       {
         type: 'add',
-        path: 'src/components/{{pascalCase name}}/{{pascalCase name}}.test.js',
-        templateFile: 'plop-templates/component/test.hbs'
+        path: 'src/components/{{pascalCase name}}/{{pascalCase name}}.testComp.js',
+        templateFile: 'plop-templates/component/testComp.hbs'
       }
     ]
   });
@@ -54,8 +54,8 @@ module.exports = function(plop) {
       },
       {
         type: 'add',
-        path: 'src/modules/{{pascalCase name}}/{{name}}.test.js',
-        templateFile: 'plop-templates/module/reducer.test.hbs'
+        path: 'src/modules/{{pascalCase name}}/{{name}}.testComp.js',
+        templateFile: 'plop-templates/module/reducer.testComp.hbs'
       },
       {
         type: 'add',

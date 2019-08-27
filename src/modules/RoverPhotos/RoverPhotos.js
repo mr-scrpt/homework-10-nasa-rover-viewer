@@ -1,5 +1,5 @@
 // Реализуйте редьюсер
-// Файл с тестами RoverPhotos.test.js поможет вам в этом
+// Файл с тестами RoverPhotos.testComp.js поможет вам в этом
 
 import {combineReducers} from 'redux';
 import {handleActions} from 'redux-actions';
@@ -46,9 +46,33 @@ export const getSol = createSelector(
   sol => sol
 );
 
+/*
 export const getPhotos = createSelector(
-  state => state.RoverPhotos.photos,
+  state => state.roverPhotos.photos,
   photos => photos
 );
+*/
+
+
+export const getPhotosTest = (name, sol)=>{
+  return createSelector(
+    state => state.roverPhotos.photos,
+    photos => photos[name][sol].photos
+  )()
+};
+
+export const getPhotos = (state, name, sol) =>{
+  if (
+    state.roverPhotos.photos[name] &&
+    state.roverPhotos.photos[name][sol] &&
+    state.roverPhotos.photos[name][sol].isLoaded
+  ){
+    return state.roverPhotos.photos[name][sol].photos;
+  }else {
+    return false;
+  }
+};
+
+
 export const getRovers = () => ['curiosity', 'opportunity', 'spirit'];
 

@@ -10,9 +10,15 @@ import React, { PureComponent} from 'react';
 import SelectSol from '../SelectSol';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
-import RoverPhotos, {changeSol, fetchPhotosRequest, getSol, getRovers} from '../../modules/RoverPhotos';
+
+import Grid from '@material-ui/core/Grid';
+
+import {changeSol, fetchPhotosRequest, getSol, getRovers, getPhotos} from '../../modules/RoverPhotos';
 import { connect } from 'react-redux';
 import {getIsAuthorized} from '../../modules/Auth';
+import RoverPhotos from '../RoverPhotos';
+import classes from './RoversViewer.module.css';
+
 
 
 class RoversViews extends PureComponent{
@@ -34,9 +40,7 @@ class RoversViews extends PureComponent{
       roverList && roverList.forEach(rover=>{
         fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
       });
-
     }
-
   }
 
   getSolOnSlider = (sol)=>{
@@ -47,24 +51,24 @@ class RoversViews extends PureComponent{
 
 
   render() {
-    //const { getCurrentSol } = this.props;
-    //const { getSol, getRoversList, fetchPhotosRequest, isAuthorized} = this.props;
-    //const roverList = getRoversList;
-    //const currentSol = getSol.currency;
+
+    const { getRoversList, getSol, getRoverPhotos} = this.props;
+    const currentSol = getSol.currency;
+    const roverList = getRoversList;
+
 
     return(
-      <>
-        <SelectSol changeSol={this.getSolOnSlider}/>
-        {/*{roverList && roverList.map(rover=>{
-            fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
+        <Grid container justify="center" className={classes.root}>
+          <SelectSol changeSol={this.getSolOnSlider} selectedSol={currentSol}/>
+          <Grid container alignItems="flex-start" justify="space-between">
+            {roverList && roverList.map(rover=>(
 
-          return(
-            <div>222</div>
-          )
-        })}*/}
-        {/*<RoverPhotos/>*/}
-
-      </>
+              <RoverPhotos key={rover}
+                           name={rover}
+                           photos={getRoverPhotos(rover, currentSol)} />
+            ))}
+          </Grid>
+        </Grid>
     )
   }
 }
@@ -73,7 +77,9 @@ export default connect(
   state => ({
     getRoversList: getRovers(state),
     getSol: getSol(state),
-    isAuthorized: getIsAuthorized(state)
+    isAuthorized: getIsAuthorized(state),
+    getRoverPhotos: (name, sol) => getPhotos(state, name, sol),
+    getCurrentPhoto: getPhotos(state)
 
   }),
   { changeSol, fetchPhotosRequest }
