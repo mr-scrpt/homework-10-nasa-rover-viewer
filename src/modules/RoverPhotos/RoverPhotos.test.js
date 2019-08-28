@@ -31,7 +31,7 @@ describe('Reducer RoverPhotos', () => {
           [sol]: { isLoading: true, photos: [], isLoaded: false }
         })
       })
-    })
+    });
     describe(`action fetchPhotosSuccess({"name: ${name}", sol: 10, photos: [1, 2, 3]})`, () => {
       const state2 = reducer(
         state1,

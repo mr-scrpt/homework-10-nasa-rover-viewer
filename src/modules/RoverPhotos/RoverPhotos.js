@@ -9,9 +9,9 @@ import {createSelector} from 'reselect';
 const sol = handleActions({
   [changeSol]: (_state, action) => ({
     ..._state,
-    currency: Math.min(Math.max(action.payload, _state.min), _state.max)
+    current: Math.min(Math.max(action.payload, _state.min), _state.max)
   })
-}, {currency: 1, min: 1, max: 100});
+}, {current: 1, min: 1, max: 100});
 
 const photos = handleActions({
 
@@ -22,11 +22,11 @@ const photos = handleActions({
   }),
 
   [fetchPhotosFailure]: () => null,
-  [fetchPhotosSuccess]: (_state, {payload: {name, roverPhoto, sol}}) => ({
+  [fetchPhotosSuccess]: (_state, {payload: {name, sol,roverPhoto}}) => ({
     ..._state,
       [name]:{
         ..._state[name],
-        [sol]: {isLoading: false, isLoaded: true, ...roverPhoto}
+        [sol]: {isLoaded: true, isLoading: false,  ...roverPhoto}
       }
   })
 }, {
@@ -34,7 +34,6 @@ const photos = handleActions({
       opportunity:{},
       spirit: {}
 });
-
 
 export default combineReducers({
   sol,
@@ -45,21 +44,6 @@ export const getSol = createSelector(
   state => state.roverPhotos.sol,
   sol => sol
 );
-
-/*
-export const getPhotos = createSelector(
-  state => state.roverPhotos.photos,
-  photos => photos
-);
-*/
-
-
-export const getPhotosTest = (name, sol)=>{
-  return createSelector(
-    state => state.roverPhotos.photos,
-    photos => photos[name][sol].photos
-  )()
-};
 
 export const getPhotos = (state, name, sol) =>{
   if (

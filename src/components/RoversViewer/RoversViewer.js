@@ -25,7 +25,7 @@ class RoversViews extends PureComponent{
   componentDidMount() {
     const { getSol, getRoversList, fetchPhotosRequest, isAuthorized} = this.props;
     const roverList = getRoversList;
-    const currentSol = getSol.currency;
+    const currentSol = getSol.current;
     roverList && roverList.forEach(rover=>{
       fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
     });
@@ -34,9 +34,9 @@ class RoversViews extends PureComponent{
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { getSol, getRoversList, fetchPhotosRequest, isAuthorized} = this.props;
 
-    if (prevProps.getSol.currency !== getSol.currency){
+    if (prevProps.getSol.current !== getSol.current){
       const roverList = getRoversList;
-      const currentSol = getSol.currency;
+      const currentSol = getSol.current;
       roverList && roverList.forEach(rover=>{
         fetchPhotosRequest({key: isAuthorized, name: rover, sol: currentSol});
       });
@@ -53,7 +53,7 @@ class RoversViews extends PureComponent{
   render() {
 
     const { getRoversList, getSol, getRoverPhotos} = this.props;
-    const currentSol = getSol.currency;
+    const currentSol = getSol.current;
     const roverList = getRoversList;
 
 
